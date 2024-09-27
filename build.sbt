@@ -4,19 +4,14 @@ version := "12.0.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
-scalaVersion := "3.5.1"
+scalaVersion := "2.13.15"
 
 val playPac4jVersion = "12.0.0-PLAY3.0"
 val pac4jVersion = "6.0.6"
 val playVersion = "3.0.5"
 
-libraryDependencies += guice
 libraryDependencies ++= Seq(
-  "com.google.inject"            % "guice"                % "6.0.0",
-  "com.google.inject.extensions" % "guice-assistedinject" % "6.0.0"
-)
-
-libraryDependencies ++= Seq(
+  guice,
   caffeine,
   //ehcache,
   "org.pac4j" %% "play-pac4j" % playPac4jVersion,
@@ -32,16 +27,12 @@ libraryDependencies ++= Seq(
   "org.pac4j" % "pac4j-mongo" % pac4jVersion excludeAll (ExclusionRule(organization = "com.fasterxml.jackson.core")),
   "org.pac4j" % "pac4j-kerberos" % pac4jVersion exclude("org.springframework", "spring-core"),
   "org.pac4j" % "pac4j-couch" % pac4jVersion excludeAll (ExclusionRule(organization = "com.fasterxml.jackson.core")),
-  "org.playframework" % "play-cache_3" % playVersion,
+  "org.playframework" % "play-cache_2.13" % playVersion,
   "ch.qos.logback" % "logback-classic" % "1.5.8",
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.17.2",
   "org.projectlombok" % "lombok" % "1.18.34",
-  "org.springframework" % "spring-context" % "6.1.13"
 )
 
 resolvers ++= Seq(Resolver.mavenLocal, "Sonatype snapshots repository" at "https://oss.sonatype.org/content/repositories/snapshots/", "Shibboleth releases" at "https://build.shibboleth.net/nexus/content/repositories/releases/")
-resolvers += "Typesafe repository" at "https://repo.typesafe.com/typesafe/ivy-releases/"
-
-routesGenerator := InjectedRoutesGenerator
 
 ThisBuild / evictionErrorLevel := Level.Info
